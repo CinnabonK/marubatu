@@ -11,7 +11,6 @@ server.on('connection', (socket) => {
   console.log('A new client connected');
 
   socket.on('message', (message) => {
-    // すべてのクライアントにメッセージをブロードキャスト
     clients.forEach(client => {
       if (client !== socket && client.readyState === WebSocket.OPEN) {
         client.send(message);
