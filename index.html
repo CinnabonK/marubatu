@@ -3,70 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>丸バツゲーム</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .board {
-            display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-template-rows: repeat(3, 100px);
-            gap: 5px;
-        }
-        .cell {
-            width: 100px;
-            height: 100px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2em;
-            border: 1px solid #333;
-            cursor: pointer;
-        }
-    </style>
+    <title>3x3 丸バツゲーム</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="board">
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
+    <h1>3x3 丸バツゲーム</h1>
+    <div id="board">
+        <div class="cell" data-index="0"></div>
+        <div class="cell" data-index="1"></div>
+        <div class="cell" data-index="2"></div>
+        <div class="cell" data-index="3"></div>
+        <div class="cell" data-index="4"></div>
+        <div class="cell" data-index="5"></div>
+        <div class="cell" data-index="6"></div>
+        <div class="cell" data-index="7"></div>
+        <div class="cell" data-index="8"></div>
     </div>
-
-    <script>
-        const cells = document.querySelectorAll('[data-cell]');
-        let isXturn = true;
-
-        // WebSocketサーバーに接続
-        const socket = new WebSocket('ws://localhost:8080');
-
-        cells.forEach(cell => {
-            cell.addEventListener('click', () => {
-                if (cell.textContent === '') {
-                    const mark = isXturn ? 'X' : 'O';
-                    cell.textContent = mark;
-                    socket.send(JSON.stringify({ cellIndex: [...cells].indexOf(cell), mark }));
-                    isXturn = !isXturn;
-                }
-            });
-        });
-
-        // サーバーからメッセージを受け取る
-        socket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            cells[data.cellIndex].textContent = data.mark;
-        };
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
