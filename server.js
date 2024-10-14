@@ -1,11 +1,12 @@
-// server.js
 const WebSocket = require('ws');
-const server = new WebSocket.Server({ port: 8080 });
+const server = new WebSocket.Server({ port: 8080, perMessageDeflate: false });
 
 let clients = [];
 
 server.on('connection', (socket) => {
   clients.push(socket);
+  console.log('A new client connected');
+
   socket.on('message', (message) => {
     // すべてのクライアントにメッセージをブロードキャスト
     clients.forEach(client => {
@@ -20,4 +21,4 @@ server.on('connection', (socket) => {
   });
 });
 
-console.log('WebSocket server is running on ws://localhost:8080');
+console.log('Server is listening on port 8080');
